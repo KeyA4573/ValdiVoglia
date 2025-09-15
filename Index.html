@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Visualizzazione Dati</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
       /* Importa il font Avantgarde */
       @font-face {
@@ -13,12 +14,11 @@
         font-style: normal;
       }
 
-      /* Sfondo e stile testo */
+      /* Sfondo e stile globale */
       body {
         font-family: 'Avantgarde', Arial, sans-serif;
-        text-align: center;
         margin: 0;
-        padding-top: 220px; /* spazio per il titolo e info statiche */
+        padding-top: 220px; /* spazio per titolo e info */
         background-image: url('PresaVoglia.jpg');
         background-size: cover;
         background-position: center;
@@ -40,30 +40,64 @@
       /* Informazioni statiche sotto il titolo */
       #info {
         position: absolute;
-        top: 60px; /* sotto il titolo */
+        top: 60px;
         left: 20px;
         text-align: left;
         line-height: 1.6em;
         font-size: 1em;
       }
 
-      /* Sezione dati dinamici */
+      /* Sezione dati dinamici centrata */
       #dati-derivazione {
-        margin-top: 50px; /* spazio sotto le informazioni statiche */
+        margin: 0 auto;
         text-align: left;
-        display: inline-block; /* per centrare il blocco senza occupare tutta la larghezza */
+        display: inline-block;
         font-size: 1.2em;
+        background-color: rgba(0,0,0,0.4); /* leggero sfondo scuro per leggibilità */
+        padding: 15px 25px;
+        border-radius: 10px;
       }
 
       #dati-derivazione h2 {
         font-weight: bold;
         text-decoration: underline;
         margin-bottom: 15px;
+        text-align: center;
       }
 
       #DMV { color: cyan; }
       #STATO { color: lime; }
       #timestamp { color: yellow; }
+
+      /* Responsive */
+      @media (max-width: 600px) {
+        #titolo {
+          font-size: 1.2em;
+        }
+        #info {
+          font-size: 0.9em;
+        }
+        #dati-derivazione {
+          font-size: 1em;
+          padding: 10px 15px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        body {
+          padding-top: 180px;
+        }
+        #titolo {
+          font-size: 1em;
+        }
+        #info {
+          font-size: 0.8em;
+        }
+        #dati-derivazione {
+          font-size: 0.9em;
+          padding: 8px 12px;
+        }
+      }
     </style>
 </head>
 <body>
