@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizzazione Dati</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      /* Importa il font Avantgarde */
+      @font-face {
+        font-family: 'Avantgarde';
+        src: url('Avantgarde.woff2') format('woff2'),
+             url('Avantgarde.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      /* Sfondo e stile globale */
+      body {
+        font-family: 'Avantgarde', Arial, sans-serif;
+        margin: 0;
+        padding-top: 220px; /* spazio per titolo e info */
+        background-image: url('PresaVoglia.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: white;
+        text-shadow: 1px 1px 2px black;
+      }
+
+      /* Titolo in alto a sinistra */
+      #titolo {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-weight: bold;
+        text-decoration: underline;
+        font-size: 1.5em;
+      }
+
+      /* Informazioni statiche sotto il titolo */
+      #info {
+        position: absolute;
+        top: 60px;
+        left: 20px;
+        text-align: left;
+        line-height: 1.6em;
+        font-size: 1em;
+      }
+
+      /* Sezione dati dinamici centrata */
+      #dati-derivazione {
+        margin: 0 auto;
+        text-align: left;
+        display: inline-block;
+        font-size: 1.2em;
+        background-color: rgba(0,0,0,0.4); /* leggero sfondo scuro per leggibilità */
+        padding: 15px 25px;
+        border-radius: 10px;
+      }
+
+      #dati-derivazione h2 {
+        font-weight: bold;
+        text-decoration: underline;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      #DMV { color: cyan; }
+      #STATO { color: lime; }
+      #timestamp { color: yellow; }
+
+      /* Responsive */
+      @media (max-width: 600px) {
+        #titolo {
+          font-size: 1.2em;
+        }
+        #info {
+          font-size: 0.9em;
+        }
+        #dati-derivazione {
+          font-size: 1em;
+          padding: 10px 15px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        body {
+          padding-top: 180px;
+        }
+        #titolo {
+          font-size: 1em;
+        }
+        #info {
+          font-size: 0.8em;
+        }
+        #dati-derivazione {
+          font-size: 0.9em;
+          padding: 8px 12px;
+        }
+      }
+    </style>
+</head>
+<body>
+    <!-- Titolo in alto a sinistra -->
+    <div id="titolo">Impianto idroelettrico Val di Voglia</div>
+
+    <!-- Informazioni statiche -->
+    <div id="info">
+        Concessionario: AQA s.r.l.<br>
+        Comune: Schilpario (Bg)<br>
+        Tipologia d'uso: Idroelettrico<br>
+        Portata massima di concessione: 38 l/sec<br>
+        Portata media di concessione: 10 l/sec<br>
+        Salto nominale: 266,00 m<br>
+        Potenza di Concessione: 26,08 kW
+    </div>
+
+    <!-- Sezione dati dinamici -->
+    <div id="dati-derivazione">
+        <h2>Dati Derivazione</h2>
+        <div>Stato derivazione: <span id="STATO">--</span></div>
+        <div>Portata DMV: <span id="DMV">--</span></div>
+        <div>Aggiornato al <span id="timestamp">--</span></div>
+    </div>
+
+    <script>
+      async function aggiornaDati() {
+        try {
+          const response = await fetch('dato.json?_=' + Date.now());
+          if (!response.ok) {
+            console.error('Errore nel fetch:', response.status, response.statusText);
+            return;
+          }
+          const data = await response.json();
+          document.getElementById('DMV').innerText = data.DMV;
+          document.getElementById('STATO').innerText = data.STATO;
+          document.getElementById('timestamp').innerText = data.timestamp;
+        } catch (err) {
+          console.error('Errore nella richiesta JSON:', err);
+        }
+      }
+
+      // Primo caricamento
+      aggiornaDati();
+      // Aggiornamento automatico ogni 30 secondi
+      setInterval(aggiornaDati, 30000);
+    </script>
+</body>
+</html>
